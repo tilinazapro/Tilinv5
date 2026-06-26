@@ -1,5 +1,7 @@
 local player = game.Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "TilinHub"
@@ -30,9 +32,9 @@ Header.Parent = MainFrame
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, -60, 1, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "TILIN HUB"
+Title.Text = "TILIN HUB - MUSCLE LEGENDS"
 Title.TextColor3 = Color3.new(1, 1, 1)
-Title.TextSize = 24
+Title.TextSize = 18
 Title.Font = Enum.Font.GothamBold
 Title.Parent = Header
 
@@ -104,14 +106,113 @@ local function CreateButton(name, callback)
 	end)
 end
 
-CreateButton("Botón 1", function()
-	print("Botón 1")
+-- Variables globales
+local autoClickActive = false
+local autoUpgradeActive = false
+local speedBoostActive = false
+
+-- Auto Click
+CreateButton("Auto Click (Presiona Q)", function()
+	autoClickActive = not autoClickActive
+	if autoClickActive then
+		while autoClickActive do
+			local args = {
+				[1] = "Punch"
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+			wait(0.1)
+		end
+	end
 end)
 
-CreateButton("Botón 2", function()
-	print("Botón 2")
+-- Auto Upgrade
+CreateButton("Auto Upgrade Stats (Presiona W)", function()
+	autoUpgradeActive = not autoUpgradeActive
+	if autoUpgradeActive then
+		while autoUpgradeActive do
+			local args = {
+				[1] = "AddStrength",
+				[2] = 10
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+			wait(0.5)
+		end
+	end
 end)
 
-CreateButton("Botón 3", function()
-	print("Botón 3")
+-- Speed Boost
+CreateButton("Speed Boost (Presiona E)", function()
+	speedBoostActive = not speedBoostActive
+	local humanoid = player.Character:WaitForChild("Humanoid")
+	if speedBoostActive then
+		humanoid.WalkSpeed = 50
+	else
+		humanoid.WalkSpeed = 16
+	end
 end)
+
+-- Teleport a Gym
+CreateButton("Teleport a Gym", function()
+	local gymPosition = Vector3.new(50, 5, 50)
+	player.Character:MoveTo(gymPosition)
+end)
+
+-- Teleport a Boss
+CreateButton("Teleport a Boss", function()
+	local bossPosition = Vector3.new(0, 5, 0)
+	player.Character:MoveTo(bossPosition)
+end)
+
+-- Get Money
+CreateButton("Recolectar Dinero", function()
+	local args = {
+		[1] = "CollectMoney"
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end)
+
+-- Infinite Stamina
+CreateButton("Stamina Infinita (Presiona R)", function()
+	if player.Character and player.Character:FindFirstChild("Humanoid") then
+		local humanoid = player.Character.Humanoid
+		humanoid.MaxHealth = 999999
+		humanoid.Health = 999999
+	end
+end)
+
+-- Teleport Random
+CreateButton("Teleport Aleatorio", function()
+	local randomX = math.random(-100, 100)
+	local randomZ = math.random(-100, 100)
+	local position = Vector3.new(randomX, 10, randomZ)
+	player.Character:MoveTo(position)
+end)
+
+-- No Damage
+CreateButton("Sin Daño", function()
+	if player.Character and player.Character:FindFirstChild("Humanoid") then
+		player.Character.Humanoid:TakeDamage(0)
+	end
+end)
+
+-- Atajos de teclado
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	
+	if input.KeyCode == Enum.KeyCode.Q then
+		autoClickActive = not autoClickActive
+	elseif input.KeyCode == Enum.KeyCode.W then
+		autoUpgradeActive = not autoUpgradeActive
+	elseif input.KeyCode == Enum.KeyCode.E then
+		speedBoostActive = not speedBoostActive
+		local humanoid = player.Character:WaitForChild("Humanoid")
+		if speedBoostActive then
+			humanoid.WalkSpeed = 50
+		else
+			humanoid.WalkSpeed = 16
+		end
+	end
+end)
+
+print("Tilin Hub - Muscle Legends Cargado!")
+print("Q = Auto Click | W = Auto Upgrade | E = Speed Boost")
