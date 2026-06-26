@@ -1,269 +1,372 @@
 local player = game.Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "TilinHubML"
+ScreenGui.Name = "TilinLunaHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
--- Frame principal
+-- Main Container
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 550, 0, 450)
-MainFrame.Position = UDim2.new(0.5, -275, 0.5, -225)
-MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+MainFrame.Size = UDim2.new(0, 900, 0, 550)
+MainFrame.Position = UDim2.new(0.5, -450, 0.5, -275)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Parent = ScreenGui
 
 local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.CornerRadius = UDim.new(0, 15)
 UICorner.Parent = MainFrame
 
--- Header
-local Header = Instance.new("Frame")
-Header.Name = "Header"
-Header.Size = UDim2.new(1, 0, 0, 50)
-Header.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-Header.BorderSizePixel = 0
-Header.Parent = MainFrame
+-- TOP BAR
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Size = UDim2.new(1, 0, 0, 80)
+TopBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TopBar.BorderSizePixel = 0
+TopBar.Parent = MainFrame
 
-local HeaderCorner = Instance.new("UICorner")
-HeaderCorner.CornerRadius = UDim.new(0, 12)
-HeaderCorner.Parent = Header
+local TopCorner = Instance.new("UICorner")
+TopCorner.CornerRadius = UDim.new(0, 15)
+TopCorner.Parent = TopBar
 
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -80, 1, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "⚡ TILIN HUB"
-Title.TextColor3 = Color3.new(1, 1, 1)
-Title.TextSize = 18
-Title.Font = Enum.Font.GothamBold
-Title.Parent = Header
+-- Logo/Title
+local LogoLabel = Instance.new("TextLabel")
+LogoLabel.Size = UDim2.new(0, 400, 1, 0)
+LogoLabel.BackgroundTransparency = 1
+LogoLabel.Text = "TILIN HUB"
+LogoLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+LogoLabel.TextSize = 48
+LogoLabel.Font = Enum.Font.GothamBold
+LogoLabel.TextXAlignment = Enum.TextXAlignment.Left
+LogoLabel.Parent = TopBar
 
-local MinimizeBtn = Instance.new("TextButton")
-MinimizeBtn.Size = UDim2.new(0, 30, 0, 30)
-MinimizeBtn.Position = UDim2.new(1, -65, 0, 10)
-MinimizeBtn.BackgroundColor3 = Color3.fromRGB(200, 100, 0)
-MinimizeBtn.TextColor3 = Color3.new(1, 1, 1)
-MinimizeBtn.Text = "−"
-MinimizeBtn.Font = Enum.Font.GothamBold
-MinimizeBtn.TextSize = 20
-MinimizeBtn.BorderSizePixel = 0
-MinimizeBtn.Parent = Header
+local Padding1 = Instance.new("UIPadding")
+Padding1.PaddingLeft = UDim.new(0, 30)
+Padding1.Parent = LogoLabel
 
-local MinCorner = Instance.new("UICorner")
-MinCorner.CornerRadius = UDim.new(0, 6)
-MinCorner.Parent = MinimizeBtn
+-- Subtitle
+local SubTitle = Instance.new("TextLabel")
+SubTitle.Size = UDim2.new(0, 400, 0, 25)
+SubTitle.Position = UDim2.new(0, 30, 0, 50)
+SubTitle.BackgroundTransparency = 1
+SubTitle.Text = "Muscle Legends | Advanced Trainer"
+SubTitle.TextColor3 = Color3.fromRGB(180, 180, 180)
+SubTitle.TextSize = 12
+SubTitle.Font = Enum.Font.Gotham
+SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+SubTitle.Parent = TopBar
 
+-- Buttons area
+local ButtonsFrame = Instance.new("Frame")
+ButtonsFrame.Size = UDim2.new(0, 350, 1, 0)
+ButtonsFrame.Position = UDim2.new(1, -370, 0, 0)
+ButtonsFrame.BackgroundTransparency = 1
+ButtonsFrame.Parent = TopBar
+
+local ButtonsLayout = Instance.new("UIListLayout")
+ButtonsLayout.FillDirection = Enum.FillDirection.Horizontal
+ButtonsLayout.Padding = UDim.new(0, 10)
+ButtonsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+ButtonsLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+ButtonsLayout.Parent = ButtonsFrame
+
+local ButtonsPadding = Instance.new("UIPadding")
+ButtonsPadding.PaddingRight = UDim.new(0, 20)
+ButtonsPadding.PaddingTop = UDim.new(0, 15)
+ButtonsPadding.PaddingBottom = UDim.new(0, 15)
+ButtonsPadding.Parent = ButtonsFrame
+
+-- Close Button
 local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 30, 0, 30)
-CloseBtn.Position = UDim2.new(1, -30, 0, 10)
+CloseBtn.Size = UDim2.new(0, 50, 0, 50)
 CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
 CloseBtn.TextColor3 = Color3.new(1, 1, 1)
 CloseBtn.Text = "✕"
 CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.TextSize = 16
+CloseBtn.TextSize = 24
 CloseBtn.BorderSizePixel = 0
-CloseBtn.Parent = Header
+CloseBtn.Parent = ButtonsFrame
 
 local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(0, 6)
+CloseCorner.CornerRadius = UDim.new(0, 10)
 CloseCorner.Parent = CloseBtn
-
-local isMinimized = false
-MinimizeBtn.MouseButton1Click:Connect(function()
-	isMinimized = not isMinimized
-	if isMinimized then
-		MainFrame.Size = UDim2.new(0, 550, 0, 50)
-		MinimizeBtn.Text = "□"
-	else
-		MainFrame.Size = UDim2.new(0, 550, 0, 450)
-		MinimizeBtn.Text = "−"
-	end
-end)
 
 CloseBtn.MouseButton1Click:Connect(function()
 	ScreenGui:Destroy()
 end)
 
--- Sidebar (izquierda)
-local Sidebar = Instance.new("Frame")
-Sidebar.Name = "Sidebar"
-Sidebar.Size = UDim2.new(0, 140, 1, -50)
-Sidebar.Position = UDim2.new(0, 0, 0, 50)
-Sidebar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Sidebar.BorderSizePixel = 0
-Sidebar.Parent = MainFrame
+CloseBtn.MouseEnter:Connect(function()
+	CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
+end)
 
--- Content Area (centro-derecha)
-local ContentArea = Instance.new("Frame")
-ContentArea.Name = "ContentArea"
-ContentArea.Size = UDim2.new(1, -140, 1, -50)
-ContentArea.Position = UDim2.new(0, 140, 0, 50)
-ContentArea.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-ContentArea.BorderSizePixel = 0
-ContentArea.Parent = MainFrame
+CloseBtn.MouseLeave:Connect(function()
+	CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+end)
 
-local ScrollContent = Instance.new("ScrollingFrame")
-ScrollContent.Size = UDim2.new(1, 0, 1, 0)
-ScrollContent.BackgroundTransparency = 1
-ScrollContent.BorderSizePixel = 0
-ScrollContent.ScrollBarThickness = 6
-ScrollContent.ScrollBarImageColor3 = Color3.fromRGB(150, 0, 0)
-ScrollContent.Parent = ContentArea
+-- Minimize Button
+local MinBtn = Instance.new("TextButton")
+MinBtn.Size = UDim2.new(0, 50, 0, 50)
+MinBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+MinBtn.TextColor3 = Color3.new(1, 1, 1)
+MinBtn.Text = "−"
+MinBtn.Font = Enum.Font.GothamBold
+MinBtn.TextSize = 28
+MinBtn.BorderSizePixel = 0
+MinBtn.Parent = ButtonsFrame
 
-local ListLayout = Instance.new("UIListLayout")
-ListLayout.Padding = UDim.new(0, 10)
-ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-ListLayout.Parent = ScrollContent
+local MinCorner = Instance.new("UICorner")
+MinCorner.CornerRadius = UDim.new(0, 10)
+MinCorner.Parent = MinBtn
 
-local Padding = Instance.new("UIPadding")
-Padding.PaddingLeft = UDim.new(0, 10)
-Padding.PaddingRight = UDim.new(0, 10)
-Padding.PaddingTop = UDim.new(0, 10)
-Padding.PaddingBottom = UDim.new(0, 10)
-Padding.Parent = ScrollContent
+local isMinimized = false
+MinBtn.MouseButton1Click:Connect(function()
+	isMinimized = not isMinimized
+	if isMinimized then
+		MainFrame.Size = UDim2.new(0, 900, 0, 80)
+		MinBtn.Text = "□"
+	else
+		MainFrame.Size = UDim2.new(0, 900, 0, 550)
+		MinBtn.Text = "−"
+	end
+end)
 
--- Variables globales
-local activeCategory = nil
+MinBtn.MouseEnter:Connect(function()
+	MinBtn.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+end)
+
+MinBtn.MouseLeave:Connect(function()
+	MinBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+end)
+
+-- Content Area
+local ContentFrame = Instance.new("Frame")
+ContentFrame.Size = UDim2.new(1, 0, 1, -80)
+ContentFrame.Position = UDim2.new(0, 0, 0, 80)
+ContentFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+ContentFrame.BorderSizePixel = 0
+ContentFrame.Parent = MainFrame
+
+-- LEFT SIDEBAR
+local LeftSidebar = Instance.new("ScrollingFrame")
+LeftSidebar.Name = "LeftSidebar"
+LeftSidebar.Size = UDim2.new(0, 180, 1, 0)
+LeftSidebar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+LeftSidebarBorderSizePixel = 0
+LeftSidebar.ScrollBarThickness = 5
+LeftSidebar.Parent = ContentFrame
+
+local SidebarLayout = Instance.new("UIListLayout")
+SidebarLayout.Padding = UDim.new(0, 8)
+SidebarLayout.FillDirection = Enum.FillDirection.Vertical
+SidebarLayout.SortOrder = Enum.SortOrder.LayoutOrder
+SidebarLayout.Parent = LeftSidebar
+
+local SidebarPadding = Instance.new("UIPadding")
+SidebarPadding.PaddingLeft = UDim.new(0, 10)
+SidebarPadding.PaddingRight = UDim.new(0, 10)
+SidebarPadding.PaddingTop = UDim.new(0, 10)
+SidebarPadding.PaddingBottom = UDim.new(0, 10)
+SidebarPadding.Parent = LeftSidebar
+
+-- RIGHT CONTENT
+local RightContent = Instance.new("ScrollingFrame")
+RightContent.Name = "RightContent"
+RightContent.Size = UDim2.new(1, -180, 1, 0)
+RightContent.Position = UDim2.new(0, 180, 0, 0)
+RightContent.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+RightContent.BorderSizePixel = 0
+RightContent.ScrollBarThickness = 5
+RightContent.ScrollBarImageColor3 = Color3.fromRGB(100, 0, 0)
+RightContent.Parent = ContentFrame
+
+local ContentLayout = Instance.new("UIGridLayout")
+ContentLayout.CellPadding = UDim2.new(0, 15, 0, 15)
+ContentLayout.CellSize = UDim2.new(0, 160, 0, 70)
+ContentLayout.FillDirection = Enum.FillDirection.Horizontal
+ContentLayout.FillDirectionMaxCells = 4
+ContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+ContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+ContentLayout.Parent = RightContent
+
+local ContentPadding = Instance.new("UIPadding")
+ContentPadding.PaddingLeft = UDim.new(0, 15)
+ContentPadding.PaddingRight = UDim.new(0, 15)
+ContentPadding.PaddingTop = UDim.new(0, 15)
+ContentPadding.PaddingBottom = UDim.new(0, 15)
+ContentPadding.Parent = RightContent
+
+-- Variables
+local currentCategory = nil
 local features = {}
+local toggleStates = {}
 
--- Función para crear botón de categoría en sidebar
-local function CreateCategoryButton(name, category)
+-- Function to create category button
+local function CreateCategoryButton(name, icon, categoryKey)
 	local Button = Instance.new("TextButton")
-	Button.Name = category
-	Button.Size = UDim2.new(1, -10, 0, 40)
-	Button.Position = UDim2.new(0, 5, 0, 0)
-	Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-	Button.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-	Button.Text = name
-	Button.Font = Enum.Font.Gotham
-	Button.TextSize = 12
+	Button.Name = categoryKey
+	Button.Size = UDim2.new(1, -20, 0, 45)
+	Button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	Button.TextColor3 = Color3.fromRGB(180, 180, 180)
+	Button.Text = icon .. " " .. name
+	Button.Font = Enum.Font.GothamBold
+	Button.TextSize = 13
 	Button.BorderSizePixel = 0
-	Button.Parent = Sidebar
+	Button.Parent = LeftSidebar
 	
 	local Corner = Instance.new("UICorner")
-	Corner.CornerRadius = UDim.new(0, 6)
+	Corner.CornerRadius = UDim.new(0, 8)
 	Corner.Parent = Button
 	
 	Button.MouseButton1Click:Connect(function()
-		activeCategory = category
-		ScrollContent:ClearAllChildren()
-		ListLayout.Parent = ScrollContent
-		Padding.Parent = ScrollContent
+		currentCategory = categoryKey
+		RightContent:ClearAllChildren()
+		ContentLayout.Parent = RightContent
+		ContentPadding.Parent = RightContent
 		
-		if features[category] then
-			for _, feature in ipairs(features[category]) do
-				feature()
+		if features[categoryKey] then
+			for _, featureFunc in ipairs(features[categoryKey]) do
+				featureFunc()
 			end
 		end
 		
-		Button.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-		Button.TextColor3 = Color3.new(1, 1, 1)
+		-- Update button colors
+		for _, btn in pairs(LeftSidebar:GetChildren()) do
+			if btn:IsA("TextButton") then
+				if btn.Name == categoryKey then
+					btn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+					btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+				else
+					btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+					btn.TextColor3 = Color3.fromRGB(180, 180, 180)
+				end
+			end
+		end
 	end)
 	
 	Button.MouseEnter:Connect(function()
-		if activeCategory ~= category then
+		if currentCategory ~= categoryKey then
 			Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 		end
 	end)
 	
 	Button.MouseLeave:Connect(function()
-		if activeCategory ~= category then
-			Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+		if currentCategory ~= categoryKey then
+			Button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 		end
 	end)
 end
 
--- Función para crear toggle en el content
-local function CreateToggle(label, callback)
-	local Container = Instance.new("Frame")
-	Container.Size = UDim2.new(1, 0, 0, 40)
-	Container.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-	Container.BorderSizePixel = 0
-	Container.Parent = ScrollContent
+-- Function to create toggle feature
+local function CreateFeature(label, icon, key, callback)
+	local FeatureFrame = Instance.new("Frame")
+	FeatureFrame.Size = UDim2.new(1, 0, 0, 65)
+	FeatureFrame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+	FeatureFrame.BorderSizePixel = 0
+	FeatureFrame.Parent = RightContent
 	
 	local Corner = Instance.new("UICorner")
-	Corner.CornerRadius = UDim.new(0, 8)
-	Corner.Parent = Container
+	Corner.CornerRadius = UDim.new(0, 10)
+	Corner.Parent = FeatureFrame
 	
 	local Label = Instance.new("TextLabel")
-	Label.Size = UDim2.new(0.6, 0, 1, 0)
+	Label.Size = UDim2.new(1, -20, 0, 30)
+	Label.Position = UDim2.new(0, 10, 0, 5)
 	Label.BackgroundTransparency = 1
-	Label.Text = label
+	Label.Text = icon .. " " .. label
 	Label.TextColor3 = Color3.new(1, 1, 1)
-	Label.Font = Enum.Font.Gotham
-	Label.TextSize = 14
+	Label.Font = Enum.Font.GothamBold
+	Label.TextSize = 13
 	Label.TextXAlignment = Enum.TextXAlignment.Left
-	Label.Parent = Container
+	Label.Parent = FeatureFrame
 	
-	local Toggle = Instance.new("TextButton")
-	Toggle.Size = UDim2.new(0.35, 0, 0.8, 0)
-	Toggle.Position = UDim2.new(0.6, 5, 0.1, 0)
-	Toggle.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-	Toggle.TextColor3 = Color3.new(1, 1, 1)
-	Toggle.Text = "OFF"
-	Toggle.Font = Enum.Font.GothamBold
-	Toggle.TextSize = 12
-	Toggle.BorderSizePixel = 0
-	Toggle.Parent = Container
+	local ToggleButton = Instance.new("TextButton")
+	ToggleButton.Size = UDim2.new(0, 45, 0, 25)
+	ToggleButton.Position = UDim2.new(1, -55, 0, 35)
+	ToggleButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	ToggleButton.TextColor3 = Color3.new(1, 1, 1)
+	ToggleButton.Text = "OFF"
+	ToggleButton.Font = Enum.Font.GothamBold
+	ToggleButton.TextSize = 11
+	ToggleButton.BorderSizePixel = 0
+	ToggleButton.Parent = FeatureFrame
 	
-	local TCorner = Instance.new("UICorner")
-	TCorner.CornerRadius = UDim.new(0, 6)
-	TCorner.Parent = Toggle
+	local ToggleCorner = Instance.new("UICorner")
+	ToggleCorner.CornerRadius = UDim.new(0, 6)
+	ToggleCorner.Parent = ToggleButton
 	
-	local isActive = false
-	Toggle.MouseButton1Click:Connect(function()
-		isActive = not isActive
-		if isActive then
-			Toggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-			Toggle.Text = "ON"
+	toggleStates[key] = false
+	
+	ToggleButton.MouseButton1Click:Connect(function()
+		toggleStates[key] = not toggleStates[key]
+		if toggleStates[key] then
+			ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+			ToggleButton.Text = "ON"
+			callback(true)
 		else
-			Toggle.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-			Toggle.Text = "OFF"
+			ToggleButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+			ToggleButton.Text = "OFF"
+			callback(false)
 		end
-		callback(isActive)
+	end)
+	
+	ToggleButton.MouseEnter:Connect(function()
+		if toggleStates[key] then
+			ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
+		else
+			ToggleButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+		end
+	end)
+	
+	ToggleButton.MouseLeave:Connect(function()
+		if toggleStates[key] then
+			ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+		else
+			ToggleButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+		end
 	end)
 end
 
--- Función para crear botón de acción
-local function CreateActionButton(label, callback)
-	local Button = Instance.new("TextButton")
-	Button.Size = UDim2.new(1, 0, 0, 35)
-	Button.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-	Button.TextColor3 = Color3.new(1, 1, 1)
-	Button.Text = label
-	Button.Font = Enum.Font.GothamBold
-	Button.TextSize = 13
-	Button.BorderSizePixel = 0
-	Button.Parent = ScrollContent
+-- Function to create action button
+local function CreateActionButton(label, icon, callback)
+	local ActionButton = Instance.new("TextButton")
+	ActionButton.Size = UDim2.new(1, 0, 0, 65)
+	ActionButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+	ActionButton.TextColor3 = Color3.new(1, 1, 1)
+	ActionButton.Text = icon .. "\n" .. label
+	ActionButton.Font = Enum.Font.GothamBold
+	ActionButton.TextSize = 12
+	ActionButton.BorderSizePixel = 0
+	ActionButton.Parent = RightContent
 	
 	local Corner = Instance.new("UICorner")
-	Corner.CornerRadius = UDim.new(0, 8)
-	Corner.Parent = Button
+	Corner.CornerRadius = UDim.new(0, 10)
+	Corner.Parent = ActionButton
 	
-	Button.MouseButton1Click:Connect(callback)
-	Button.MouseEnter:Connect(function()
-		Button.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+	ActionButton.MouseButton1Click:Connect(callback)
+	
+	ActionButton.MouseEnter:Connect(function()
+		ActionButton.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
 	end)
-	Button.MouseLeave:Connect(function()
-		Button.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+	
+	ActionButton.MouseLeave:Connect(function()
+		ActionButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 	end)
 end
 
--- CATEGORÍAS Y FEATURES
+-- CATEGORIES
 
--- Entrenamiento
+-- Training
 features["Training"] = {
 	function()
-		CreateToggle("Auto Punch", function(state)
+		CreateFeature("Auto Punch", "👊", "autoPunch", function(state)
 			if state then
 				spawn(function()
-					while activeCategory == "Training" and true do
+					while toggleStates["autoPunch"] do
 						pcall(function()
 							game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Punch"):FireServer()
 						end)
@@ -273,10 +376,10 @@ features["Training"] = {
 			end
 		end)
 		
-		CreateToggle("Auto Lift", function(state)
+		CreateFeature("Auto Lift", "🏋️", "autoLift", function(state)
 			if state then
 				spawn(function()
-					while activeCategory == "Training" and true do
+					while toggleStates["autoLift"] do
 						pcall(function()
 							game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Lift"):FireServer()
 						end)
@@ -286,10 +389,10 @@ features["Training"] = {
 			end
 		end)
 		
-		CreateToggle("Auto Run", function(state)
+		CreateFeature("Auto Run", "🏃", "autoRun", function(state)
 			if state then
 				spawn(function()
-					while activeCategory == "Training" and true do
+					while toggleStates["autoRun"] do
 						pcall(function()
 							game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Run"):FireServer()
 						end)
@@ -299,7 +402,7 @@ features["Training"] = {
 			end
 		end)
 		
-		CreateActionButton("Max All Stats", function()
+		CreateActionButton("Max Stats", "⭐", function()
 			pcall(function()
 				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("MaxStats"):FireServer()
 			end)
@@ -307,10 +410,10 @@ features["Training"] = {
 	end
 }
 
--- Movimiento
+-- Movement
 features["Movement"] = {
 	function()
-		CreateToggle("Speed Boost (3x)", function(state)
+		CreateFeature("Speed 3x", "⚡", "speed3x", function(state)
 			if player.Character and player.Character:FindFirstChild("Humanoid") then
 				if state then
 					player.Character.Humanoid.WalkSpeed = 48
@@ -320,7 +423,7 @@ features["Movement"] = {
 			end
 		end)
 		
-		CreateToggle("Super Speed (5x)", function(state)
+		CreateFeature("Speed 5x", "💨", "speed5x", function(state)
 			if player.Character and player.Character:FindFirstChild("Humanoid") then
 				if state then
 					player.Character.Humanoid.WalkSpeed = 80
@@ -330,13 +433,13 @@ features["Movement"] = {
 			end
 		end)
 		
-		CreateActionButton("Teleport Gym", function()
+		CreateActionButton("TP Gym", "🏋️", function()
 			if player.Character then
 				player.Character:MoveTo(Vector3.new(50, 5, 50))
 			end
 		end)
 		
-		CreateActionButton("Teleport Arena", function()
+		CreateActionButton("TP Arena", "👹", function()
 			if player.Character then
 				player.Character:MoveTo(Vector3.new(-100, 5, -100))
 			end
@@ -347,10 +450,10 @@ features["Movement"] = {
 -- Combat
 features["Combat"] = {
 	function()
-		CreateToggle("Inf Health", function(state)
+		CreateFeature("Inf Health", "❤️", "infHealth", function(state)
 			if state then
 				spawn(function()
-					while activeCategory == "Combat" and true do
+					while toggleStates["infHealth"] do
 						if player.Character and player.Character:FindFirstChild("Humanoid") then
 							player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
 						end
@@ -360,7 +463,7 @@ features["Combat"] = {
 			end
 		end)
 		
-		CreateToggle("No Damage", function(state)
+		CreateFeature("No Damage", "🛡️", "noDamage", function(state)
 			if player.Character and player.Character:FindFirstChild("Humanoid") then
 				if state then
 					player.Character.Humanoid.MaxHealth = 999999
@@ -369,7 +472,7 @@ features["Combat"] = {
 			end
 		end)
 		
-		CreateToggle("Noclip", function(state)
+		CreateFeature("Noclip", "👻", "noclip", function(state)
 			if player.Character then
 				for _, part in pairs(player.Character:GetDescendants()) do
 					if part:IsA("BasePart") then
@@ -379,7 +482,7 @@ features["Combat"] = {
 			end
 		end)
 		
-		CreateActionButton("Reset Stats", function()
+		CreateActionButton("Reset", "🔄", function()
 			pcall(function()
 				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ResetStats"):FireServer()
 			end)
@@ -387,25 +490,25 @@ features["Combat"] = {
 	end
 }
 
--- Dinero
+-- Money
 features["Money"] = {
 	function()
-		CreateActionButton("Collect Money", function()
+		CreateActionButton("Collect", "💰", function()
 			pcall(function()
 				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("CollectMoney"):FireServer()
 			end)
 		end)
 		
-		CreateActionButton("Claim Daily Reward", function()
+		CreateActionButton("Daily", "🎁", function()
 			pcall(function()
 				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("DailyReward"):FireServer()
 			end)
 		end)
 		
-		CreateToggle("Auto Farm Money", function(state)
+		CreateFeature("Auto Farm", "💵", "autoFarm", function(state)
 			if state then
 				spawn(function()
-					while activeCategory == "Money" and true do
+					while toggleStates["autoFarm"] do
 						pcall(function()
 							game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("CollectMoney"):FireServer()
 						end)
@@ -414,20 +517,26 @@ features["Money"] = {
 				end)
 			end
 		end)
+		
+		CreateActionButton("Free Pass", "🎟️", function()
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("FreePasses"):FireServer()
+			end)
+		end)
 	end
 }
 
--- Otros
+-- Other
 features["Other"] = {
 	function()
-		CreateActionButton("Remove Shadows", function()
+		CreateActionButton("No Shadows", "🌑", function()
 			game.Lighting.GlobalShadows = false
 		end)
 		
-		CreateToggle("Auto Equip Best Gear", function(state)
+		CreateFeature("Auto Equip", "⚙️", "autoEquip", function(state)
 			if state then
 				spawn(function()
-					while activeCategory == "Other" and true do
+					while toggleStates["autoEquip"] do
 						pcall(function()
 							game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("EquipBest"):FireServer()
 						end)
@@ -437,31 +546,36 @@ features["Other"] = {
 			end
 		end)
 		
-		CreateActionButton("Get Free Passes", function()
+		CreateActionButton("Best Gear", "🎯", function()
 			pcall(function()
-				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("FreePasses"):FireServer()
+				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("EquipBest"):FireServer()
 			end)
 		end)
 	end
 }
 
--- Crear botones de categoría
-CreateCategoryButton("Training", "Training")
-CreateCategoryButton("Movement", "Movement")
-CreateCategoryButton("Combat", "Combat")
-CreateCategoryButton("Money", "Money")
-CreateCategoryButton("Other", "Other")
+-- Create category buttons
+CreateCategoryButton("Training", "🏋️", "Training")
+CreateCategoryButton("Movement", "⚡", "Movement")
+CreateCategoryButton("Combat", "👊", "Combat")
+CreateCategoryButton("Money", "💰", "Money")
+CreateCategoryButton("Other", "⚙️", "Other")
 
--- Cargar Training por defecto
-activeCategory = "Training"
-local trainingBtn = Sidebar:FindFirstChild("Training")
-if trainingBtn then
-	trainingBtn:MouseButton1Click()
+-- Load first category
+currentCategory = "Training"
+local firstBtn = LeftSidebar:FindFirstChild("Training")
+if firstBtn then
+	firstBtn:MouseButton1Click()
 end
 
-ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-	ScrollContent.CanvasSize = UDim2.new(0, 0, 0, ListLayout.AbsoluteContentSize.Y + 20)
+-- Auto-update canvas sizes
+SidebarLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	LeftSidebar.CanvasSize = UDim2.new(0, 0, 0, SidebarLayout.AbsoluteContentSize.Y + 20)
 end)
 
-print("✅ Tilin Hub - Muscle Legends Cargado!")
-print("💪 Características: Training, Movement, Combat, Money, Other")
+ContentLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	RightContent.CanvasSize = UDim2.new(0, 0, 0, ContentLayout.AbsoluteContentSize.Y + 30)
+end)
+
+print("✅ TILIN HUB - Muscle Legends")
+print("🚀 Luna Hub Style | Ready to Train!")
